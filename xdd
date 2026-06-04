@@ -10453,6 +10453,84 @@ do
             return Dialog
         end
 
+        Library.CreateMainPage = function(Self)
+            local Page = Self:Page({ Name = "Main", Icon = "rbxassetid://0" })
+
+            local MainSubPage = Page:SubPage({ Name = "Main" })
+
+            do
+                local InfoSection = MainSubPage:Section({ Name = "Info", Side = 1 })
+                do
+                    InfoSection:Label({ Name = "Welcome" })
+                end
+
+                local GeneralSection = MainSubPage:Section({ Name = "General", Side = 2 })
+                do
+                    GeneralSection:Toggle({
+                        Name = "Example Toggle",
+                        Flag = "MainExampleToggle",
+                        Default = false,
+                        Callback = function(Value) end
+                    })
+
+                    GeneralSection:Button({
+                        Name = "Example Button",
+                        Callback = function() end
+                    })
+                end
+            end
+
+            return Page
+        end
+
+        Library.CreateMovementPage = function(Self)
+            local Page = Self:Page({ Name = "Movement", Icon = "rbxassetid://0" })
+
+            local MovementSubPage = Page:SubPage({ Name = "Movement" })
+
+            do
+                local MovementSection = MovementSubPage:Section({ Name = "Movement", Side = 1 })
+                do
+                    MovementSection:Slider({
+                        Name = "Walk Speed",
+                        Flag = "MovementWalkSpeed",
+                        Default = 16,
+                        Min = 0,
+                        Max = 500,
+                        Callback = function(Value) end
+                    })
+
+                    MovementSection:Slider({
+                        Name = "Jump Power",
+                        Flag = "MovementJumpPower",
+                        Default = 50,
+                        Min = 0,
+                        Max = 500,
+                        Callback = function(Value) end
+                    })
+                end
+
+                local TogglesSection = MovementSubPage:Section({ Name = "Toggles", Side = 2 })
+                do
+                    TogglesSection:Toggle({
+                        Name = "Fly",
+                        Flag = "MovementFly",
+                        Default = false,
+                        Callback = function(Value) end
+                    })
+
+                    TogglesSection:Toggle({
+                        Name = "NoClip",
+                        Flag = "MovementNoClip",
+                        Default = false,
+                        Callback = function(Value) end
+                    })
+                end
+            end
+
+            return Page
+        end
+
         Library.CreateSettingsPage = function(Self)
             local Page = Self:Page({ Name = "Settings", Icon = "rbxassetid://0" })
 
