@@ -7372,7 +7372,7 @@ do
             local Window = {
                 IsOpen = true,
                 Title = tostring(Params.Title or Params.title or Params.Name or Params.name or "Panel"),
-                DockButtonText = tostring(Params.ButtonName or Params.buttonName or "Main UI"),
+                DockButtonText = tostring(Params.ButtonName or Params.buttonName or ""),
                 Pages = {},
                 Items = {}
             }
@@ -7871,7 +7871,7 @@ do
             end
 
             function Window:SetDockText(Text)
-                Window.DockButtonText = tostring(Text or "Main UI")
+                Window.DockButtonText = tostring(Text or "")
                 Items["DockText"].Instance.Text = Window.DockButtonText
             end
 
