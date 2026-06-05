@@ -10652,6 +10652,18 @@ do
                             Library.Animation.Time = Value
                         end
                     })
+
+                    SettingsSection:Slider({
+                        Name = "Triggerbot Delay",
+                        Flag = "TriggerbotDelay",
+                        Default = 0.1,
+                        Min = 0,
+                        Max = 1,
+                        Decimals = .1,
+                        Callback = function(Value)
+                            -- Placeholder for triggerbot delay
+                        end
+                    })
                 end
 
                 local WidgetsSection = OtherSubPage:Section({ Name = "Widgets", Side = 2 })
