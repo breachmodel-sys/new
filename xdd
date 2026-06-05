@@ -10666,45 +10666,6 @@ do
                     })
                 end
 
-                local TriggerbotSection = OtherSubPage:Section({ Name = "Triggerbot", Side = 2 })
-                do
-                    local triggerbotEnabled = false
-                    local triggerbotHotkeyEnabled = false
-                    local triggerbotDelay = 0.1
-                    local triggerbotKeybind = Enum.KeyCode.Z
-
-                    TriggerbotSection:Toggle({
-                        Name = "Triggerbot",
-                        Flag = "Triggerbot",
-                        Default = false,
-                        Callback = function(value)
-                            triggerbotHotkeyEnabled = value
-                            if not value then
-                                triggerbotEnabled = false
-                            end
-                        end
-                    }):Keybind({
-                        Default = Enum.KeyCode.Z,
-                        Callback = function()
-                            if triggerbotHotkeyEnabled then
-                                triggerbotEnabled = not triggerbotEnabled
-                            end
-                        end
-                    })
-
-                    TriggerbotSection:Slider({
-                        Name = "Delay",
-                        Flag = "TriggerbotDelay",
-                        Default = 0.1,
-                        Min = 0,
-                        Max = 1,
-                        Decimals = .1,
-                        Callback = function(value)
-                            triggerbotDelay = value
-                        end
-                    })
-                end
-
                 local WidgetsSection = OtherSubPage:Section({ Name = "Widgets", Side = 2 })
                 do
                     for _, WidgetData in Library.SettingsWidgets do
