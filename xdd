@@ -149,7 +149,7 @@ do
         ["Ampersand"]        = "&",
         ["Quote"]            = "'",
         ["LeftParenthesis"]  = "(",
-        ["RightParenthesis"] = ")",
+        ["RightParenthesis"] = " )",
         ["Asterisk"]         = "*",
         ["Plus"]             = "+",
         ["Comma"]            = ",",
@@ -167,7 +167,7 @@ do
         ["Equals"]           = "=",
         ["At"]               = "@",
         ["LeftBracket"]      = "LeftBracket",
-        ["RightBracket"]     = "RightBracket",
+        ["RightBracket"]     = "RightBracked",
         ["BackSlash"]        = "BackSlash",
         ["Caret"]            = "^",
         ["Underscore"]       = "_",
@@ -7372,7 +7372,7 @@ do
             local Window = {
                 IsOpen = true,
                 Title = tostring(Params.Title or Params.title or Params.Name or Params.name or "Panel"),
-                DockButtonText = tostring(Params.ButtonName or Params.buttonName or ""),
+                DockButtonText = tostring(Params.ButtonName or Params.buttonName or "Main UI"),
                 Pages = {},
                 Items = {}
             }
@@ -7871,7 +7871,7 @@ do
             end
 
             function Window:SetDockText(Text)
-                Window.DockButtonText = tostring(Text or "")
+                Window.DockButtonText = tostring(Text or "Main UI")
                 Items["DockText"].Instance.Text = Window.DockButtonText
             end
 
@@ -9002,8 +9002,11 @@ do
             function Slider:Set(Value)
                 Slider.Value = Library:Round(math.clamp(Value, Slider.Min, Slider.Max), Slider.Decimals)
 
+                local Range = Slider.Max - Slider.Min
+                local SizePercent = Range > 0 and (Slider.Value - Slider.Min) / Range or 0
+
                 Items["Accent"]:Tween(
-                    { Size = UDim2.new((Slider.Value - Slider.Min) / (Slider.Max - Slider.Min), 0, 1, 0) },
+                    { Size = UDim2.new(SizePercent, 0, 1, 0) },
                     TweenInfo.new(Library.Animation.Time, Enum.EasingStyle.Quart, Enum.EasingDirection.Out))
                 Items["Value"].Instance.Text = string.format("%s%s", Slider.Value, Slider.Suffix)
 
@@ -9016,8 +9019,8 @@ do
             end
 
             function Slider:GetSize(Input)
-                local SizeX = (Input.Position.X - Items["RealSlider"].Instance.AbsolutePosition.X) /
-                    Items["RealSlider"].Instance.AbsoluteSize.X
+                local AbsoluteSizeX = Items["RealSlider"].Instance.AbsoluteSize.X
+                local SizeX = AbsoluteSizeX > 0 and (Input.Position.X - Items["RealSlider"].Instance.AbsolutePosition.X) / AbsoluteSizeX or 0
                 local Value = ((Slider.Max - Slider.Min) * SizeX) + Slider.Min
 
                 return Value
@@ -10451,84 +10454,6 @@ do
             end))
 
             return Dialog
-        end
-
-        Library.CreateMainPage = function(Self)
-            local Page = Self:Page({ Name = "Main", Icon = "rbxassetid://0" })
-
-            local MainSubPage = Page:SubPage({ Name = "Main" })
-
-            do
-                local InfoSection = MainSubPage:Section({ Name = "Info", Side = 1 })
-                do
-                    InfoSection:Label({ Name = "Welcome" })
-                end
-
-                local GeneralSection = MainSubPage:Section({ Name = "General", Side = 2 })
-                do
-                    GeneralSection:Toggle({
-                        Name = "Example Toggle",
-                        Flag = "MainExampleToggle",
-                        Default = false,
-                        Callback = function(Value) end
-                    })
-
-                    GeneralSection:Button({
-                        Name = "Example Button",
-                        Callback = function() end
-                    })
-                end
-            end
-
-            return Page
-        end
-
-        Library.CreateMovementPage = function(Self)
-            local Page = Self:Page({ Name = "Movement", Icon = "rbxassetid://0" })
-
-            local MovementSubPage = Page:SubPage({ Name = "Movement" })
-
-            do
-                local MovementSection = MovementSubPage:Section({ Name = "Movement", Side = 1 })
-                do
-                    MovementSection:Slider({
-                        Name = "Walk Speed",
-                        Flag = "MovementWalkSpeed",
-                        Default = 16,
-                        Min = 0,
-                        Max = 500,
-                        Callback = function(Value) end
-                    })
-
-                    MovementSection:Slider({
-                        Name = "Jump Power",
-                        Flag = "MovementJumpPower",
-                        Default = 50,
-                        Min = 0,
-                        Max = 500,
-                        Callback = function(Value) end
-                    })
-                end
-
-                local TogglesSection = MovementSubPage:Section({ Name = "Toggles", Side = 2 })
-                do
-                    TogglesSection:Toggle({
-                        Name = "Fly",
-                        Flag = "MovementFly",
-                        Default = false,
-                        Callback = function(Value) end
-                    })
-
-                    TogglesSection:Toggle({
-                        Name = "NoClip",
-                        Flag = "MovementNoClip",
-                        Default = false,
-                        Callback = function(Value) end
-                    })
-                end
-            end
-
-            return Page
         end
 
         Library.CreateSettingsPage = function(Self)
